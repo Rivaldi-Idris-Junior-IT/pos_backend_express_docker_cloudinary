@@ -1,0 +1,24 @@
+{
+  "name": "crud-basic-node",
+  "version": "1.0.0",
+  "description": "belajar api menggunakan express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "api",
+    "backend",
+    "restfull"
+  ],
+  "author": "rivaldiidris",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.3.3",
+    "pg-pool": "^3.2.1"
+  }
+}
