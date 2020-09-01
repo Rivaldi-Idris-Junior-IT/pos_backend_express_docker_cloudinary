@@ -1,4 +1,5 @@
 const model = require('../Model/Product')
+const { request, response } = require('express')
 // Membuat bungkusan dengan variabel
 const Product = {}
 
@@ -22,6 +23,15 @@ Product.search = async (request, response) => {
     }
 }
 
+Product.joinall = async (request,response) => {
+    try {
+        const data = await model.JoinAll()
+        return response.send(data)
+    } catch (error) {
+        return response.send("error")
+    }
+}
+
 Product.add = async (req, res) => {    
     try {
         const {nama, harga, stok} = req.body
@@ -34,8 +44,8 @@ Product.add = async (req, res) => {
 
 Product.edit = async (req, res) => {
     try {
-        const { id, nama, harga, stok} = req.body
-        const data = await model.Edit(id, nama, harga, stok)
+        const { id, nama, harga, stok,kategori_id} = req.body
+        const data = await model.Edit(id, nama, harga, stok, kategori_id)
         return res.send(data)   
     } catch (error) {
         return res.status(500).json(error)
