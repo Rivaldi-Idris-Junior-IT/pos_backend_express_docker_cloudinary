@@ -34,8 +34,8 @@ Product.joinall = async (request,response) => {
 
 Product.add = async (req, res) => {    
     try {
-        const {nama, harga, stok} = req.body
-        const data = await model.Add(nama, harga ,stok)        
+        const {nama, harga, stok,kategori_id,link_gambar} = req.body
+        const data = await model.Add(nama, harga ,stok, kategori_id,link_gambar)
         return res.status(200).send(data)      
     } catch (error) {
         return res.status(500).json(error)
@@ -44,8 +44,8 @@ Product.add = async (req, res) => {
 
 Product.edit = async (req, res) => {
     try {
-        const { id, nama, harga, stok,kategori_id} = req.body
-        const data = await model.Edit(id, nama, harga, stok, kategori_id)
+        const { id, nama, harga, stok,kategori_id,link_gambar} = req.body
+        const data = await model.Edit(id, nama, harga, stok, kategori_id,link_gambar)
         return res.send(data)   
     } catch (error) {
         return res.status(500).json(error)
@@ -54,7 +54,7 @@ Product.edit = async (req, res) => {
 
 Product.delete = async (req, res) => {
     try {
-        const {id} = req.body
+        const {id} = req.params
         const data = await model.Delete(id)
         return res.send(data)    
     } catch (error) {

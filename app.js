@@ -11,11 +11,15 @@ const routes = require ('./src/main')
 const database = require('./src/config/Databases')
 // Menajalankan menggunakan port
 const port = 4500
+const cors = require('cors')
 
 server.use(bodyParser.urlencoded({extended: false}))
 server.use(bodyParser.json())
 server.use(morgan("dev"))
 server.use(routes)
+server.use(cors())
+// app.use(cors())
+
 
 database
     .connect()

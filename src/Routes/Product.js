@@ -8,7 +8,7 @@ Routes.get("/", controller.all)
 Routes.get("/search/:nama", controller.search)
 Routes.post("/", controller.add)
 Routes.put("/", controller.edit)
-Routes.delete("/", controller.delete)
+Routes.delete("/delete/:id", controller.delete)
 Routes.get("/useJoin",controller.joinall)
 
 
