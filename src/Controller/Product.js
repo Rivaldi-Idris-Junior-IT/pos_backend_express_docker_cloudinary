@@ -1,12 +1,16 @@
 const model = require('../Model/Product')
 const { request, response } = require('express')
+const redis = require("../Config/redis")
+const result = require("../Helper/respon")
 // Membuat bungkusan dengan variabel
 const Product = {}
 
 Product.all = async (req, res) => {
     try {
         const data = await model.GetAll()
-        return res.send(data)
+        const data_redis = JSON.stringify(data)
+        redis.redisdb.setex("getAll", 10, data_redis)                
+        return result(res,200, data)
     }catch(error) {
         return res.send("errror")
     }

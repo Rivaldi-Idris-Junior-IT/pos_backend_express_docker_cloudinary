@@ -43,7 +43,7 @@ Product.Add = (nama,harga,stok,kategori_id,link_gambar) => {
     return new Promise((resolve, reject) => {
         database
         .query(`INSERT INTO table_produk (nama,harga,stok,kategori_id,link_gambar) VALUES ('${nama}',${parseInt(harga)},'${stok}','${kategori_id}','${link_gambar}')`)
-        .then((res) => {        
+        .then(() => {        
             resolve(Product.GetAll())
         })
         .catch((err) => {

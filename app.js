@@ -1,3 +1,4 @@
+require('dotenv/config')
 // Memanggil express
 const express = require('express')
 const server = express()
@@ -11,7 +12,11 @@ const routes = require ('./src/main')
 const database = require('./src/config/Databases')
 // Menajalankan menggunakan port
 const port = 4500
-const cors = require('cors')
+// Import cors library
+const cors = require("cors")
+// Import redis dari folder config di file redis
+const redis = require("./src/Config/redis")
+
 
 server.use(bodyParser.urlencoded({extended: false}))
 server.use(bodyParser.json())
@@ -28,6 +33,14 @@ database
     })
     .catch(err => {
         console.log("Database not Connected")
+    })
+
+redis.redisChek()
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => {
+        console.log(err)
     })
 
 server.listen(port, () => {
