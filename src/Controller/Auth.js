@@ -29,27 +29,39 @@ class Auth {
         }
     }
 
-    setToken = async (user) => {
-        try {
+    setToken = async (username) => {
+        try {   
+            const cek_account = await model.getByUsername(username)
+            
             const payload = {
-                user : user,
-                // role :"admin"
-            }
-    
-            const token =  jwt.sign(payload, process.env.JWT_KEYS, {expiresIn: '50s'})
+                user : username,
+                role : cek_account[0].role
+            }            
+
+            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS)
+            const getusername = cek_account[0].username
+                        
+            const save = {
+                username : getusername,
+                token : gentoken,
+                role : cek_account[0].role
+            }  
+
+            const process = await model.EditToken(save.username,save.token,save.role)            
     
             const result = {
-                token : token,
-                msg : "Token created, login success"
-            }
-    
-            return result 
+                token : gentoken,
+                msg : "Token created, login success",
+            }    
+            return result
         
         } catch (error) {
             throw error
         }
 
     }
+
+
 }
 
 module.exports = new Auth()

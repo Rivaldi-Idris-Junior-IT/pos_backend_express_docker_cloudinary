@@ -2,6 +2,7 @@ const model = require('../Model/Users')
 const { request } = require('express')
 const respone = require("../Helper/respon")
 const hashPassword = require ("../Helper/hash")
+const jwt = require('jsonwebtoken')
 // Membuat bungkusan dengan variabel
 const Users = {}
 
@@ -26,11 +27,19 @@ Users.getbyuser = async (req, res) => {
 
 Users.add = async (req, res) => {    
     try {
+        const user = req.body.username
+        const role = req.body.role
+        const payload = {
+            username : user,
+            role : role,
+        }        
         const passHash = await hashPassword(req.body.password)
+        const genToken = jwt.sign(payload, process.env.JWT_KEYS)         
         const data = {
             username : req.body.username,
             password : passHash,            
-            token : req.body.token,
+            token : genToken,
+            role : req.body.role
         }
         const result = await model.Add(data)
         return respone(res, 200, result)
@@ -51,13 +60,35 @@ Users.edit = async (req, res) => {
 
 Users.delete = async (req, res) => {
     try {
-        const {id} = req.params
+        const { id} = req.body
         const data = await model.Delete(id)
         return res.send(data)    
     } catch (error) {
-        return res.status(500).json(error)
+        return response.status(500).json(error)
     }
     
+}
+
+Users.editToken = async (req,res) => {
+    try {
+        const user = req.body.username
+        const role = req.body.role
+        const payload = {
+            username : user,
+            role : role,
+        }        
+        const genToken = jwt.sign(payload, process.env.JWT_KEYS) 
+        const data_user = {
+            username : req.body.username,
+            token : genToken,            
+            role : req.body.role
+        }
+        console.log(data_user)
+        const data = await model.EditToken(data_user.username,data_user.token,data_user.role)        
+        return result(res, 201, data_user)      
+    } catch (error) {
+        return res.status(500).json(error)
+    }    
 }
 
 

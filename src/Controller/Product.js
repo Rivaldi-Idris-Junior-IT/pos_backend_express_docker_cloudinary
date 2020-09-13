@@ -38,9 +38,20 @@ Product.joinall = async (request,response) => {
 
 Product.add = async (req, res) => {    
     try {
-        const {nama, harga, stok,kategori_id,link_gambar} = req.body
-        const data = await model.Add(nama, harga ,stok, kategori_id,link_gambar)
-        return res.status(200).send(data)      
+        if(req.file === undefined) {
+            console.log(req.file)
+            return res.status(500).json("Data Kosong")
+        }
+        const data_product = {
+            nama : req.body.nama,
+            harga : req.body.harga,
+            stok : req.body.stok,
+            kategori_id : req.body.kategori_id,
+            link_gambar : req.file.path,
+        }
+        console.log(data_product)
+        const data = await model.Add(data_product.nama,data_product.harga,data_product.stok,data_product.kategori_id,data_product.link_gambar)
+        return result(res, 201, data_product)      
     } catch (error) {
         return res.status(500).json(error)
     }         

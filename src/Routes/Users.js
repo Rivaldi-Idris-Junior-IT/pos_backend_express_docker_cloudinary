@@ -7,7 +7,7 @@ const Routes = express.Router()
 Routes.get("/", controller.all)
 Routes.post("/", controller.add)
 Routes.get("/get",controller.getbyuser)
-Routes.put("/", controller.edit)
-Routes.delete("/delete/:id", controller.delete)
+Routes.put("/", controller.editToken)
+Routes.delete("/", controller.delete)
 
 module.exports = Routes
