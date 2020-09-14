@@ -29,7 +29,7 @@ class Auth {
         }
     }
 
-    setToken = async (username) => {
+    setToken = async (username) => {        
         try {   
             const cek_account = await model.getByUsername(username)
             
@@ -47,15 +47,18 @@ class Auth {
                 role : cek_account[0].role
             }  
 
-            const process = await model.EditToken(save.username,save.token,save.role)            
+            const update_data = await model.EditToken(save)
+            
     
             const result = {
                 token : gentoken,
                 msg : "Token created, login success",
+                desc : update_data
             }    
             return result
         
         } catch (error) {
+            console.log(error)
             throw error
         }
 
