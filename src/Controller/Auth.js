@@ -34,11 +34,12 @@ class Auth {
             const cek_account = await model.getByUsername(username)
             
             const payload = {
-                user : username,
+                username : username,
                 role : cek_account[0].role
             }            
 
-            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS)
+            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: 60 })
+            
             const getusername = cek_account[0].username
                         
             const save = {
@@ -47,7 +48,7 @@ class Auth {
                 role : cek_account[0].role
             }  
 
-            const update_data = await model.EditToken(save)
+            const update_data = await model.EditToken(save.username,save.token,save.role)
             
     
             const result = {
