@@ -38,7 +38,7 @@ class Auth {
                 role : cek_account[0].role
             }            
 
-            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: 60 })
+            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: 5 })
             
             const getusername = cek_account[0].username
                         
