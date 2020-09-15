@@ -50,7 +50,7 @@ Product.add = async (req, res) => {
             link_gambar : req.file.path,
         }
         console.log(data_product)
-        const data = await model.Add(data_product.nama,data_product.harga,data_product.stok,data_product.kategori_id,data_product.link_gambar)
+        const data = await model.Add(data_product.nama, data_product.harga, data_product.stok, data_product.kategori_id, data_product.link_gambar)
         return result(res, 201, data_product)      
     } catch (error) {
         return res.status(500).json(error)

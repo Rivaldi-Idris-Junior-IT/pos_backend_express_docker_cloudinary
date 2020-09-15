@@ -23,6 +23,7 @@ server.use(bodyParser.json())
 server.use(morgan("dev"))
 server.use(routes)
 server.use(cors())
+server.use("/public", express.static("public"))
 // app.use(cors())
 
 
