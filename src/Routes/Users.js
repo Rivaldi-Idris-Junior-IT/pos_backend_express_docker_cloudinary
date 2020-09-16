@@ -8,8 +8,8 @@ const Routes = express.Router()
 // Import untuk Users
 Routes.get("/", controller.all)
 Routes.post("/", chache, controller.add)
-Routes.get("/get", validate, chache, controller.getbyuser)
-Routes.put("/", validate,chache, controller.editToken)
+Routes.get("/get",  chache, controller.getbyuser)
+Routes.put("/", chache, controller.editToken)
 Routes.delete("/", controller.delete)
 
 module.exports = Routes

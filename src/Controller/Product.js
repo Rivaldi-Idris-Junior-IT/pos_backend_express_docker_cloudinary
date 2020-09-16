@@ -12,7 +12,7 @@ Product.all = async (req, res) => {
     try {
         const data = await model.GetAll()
         const data_redis = JSON.stringify(data)
-        redis.redisdb.setex("getAll", 10, data_redis)                
+        redis.redisdb.setex("getAll", 40, data_redis)
         return result(res,200, data)
     }catch(error) {
         return res.send("errror")
