@@ -69,7 +69,21 @@ Product.Edit = (id, nama, harga, stok,kategori_id,link_gambar) => {
 Product.Delete = (id) => { 
     return new Promise((resolve, reject) => {
         database
-        .query(`DELETE FROM public.table_produk WHERE id= ${id}; `)
+        .query(`DELETE FROM public.table_produk WHERE id = ${id} `)
+        .then((res) => {        
+            resolve(Product.GetAll())
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+Product.SelectImage = (id) => {
+    return new Promise((resolve, reject) => {
+        database
+        .query(`SELECT "link_gambar" FROM table_produk WHERE id = ${id}`)
         .then((res) => {        
             resolve(Product.GetAll())
         })

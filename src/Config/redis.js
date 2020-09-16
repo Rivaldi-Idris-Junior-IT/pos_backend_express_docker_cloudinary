@@ -3,9 +3,9 @@ class Redis {
 
     constructor(){
         this.redisdb = redis.createClient({
-            host : process.env.REDIS_HOST,
-            port : process.env.REDIST_POST,
-            password : process.env.REDIS_PASSWORD
+            host : (process.env.REDIS_HOST || '127.0.0.1'),
+            port : (process.env.REDIST_POST || '6379'),
+            password : (process.env.REDIS_PASSWORD || 'aldi1234' )
         })
     }
 

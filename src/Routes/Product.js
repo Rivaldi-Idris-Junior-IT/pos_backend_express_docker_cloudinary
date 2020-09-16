@@ -7,11 +7,11 @@ const upload = require("../Middleware/upload")
 const Routes = express.Router()
 
 // Import untuk produk
-Routes.get("/",  chache, controller.all)
+Routes.get("/",   controller.all)
 Routes.get("/search/:nama", controller.search)
-Routes.post("/", upload.single("link_gambar"), validate, chache, controller.add)
-Routes.put("/", validate, chache, controller.edit)
-Routes.delete("/delete/:id", validate, chache, controller.delete)
+Routes.post("/", upload.single("link_gambar"), chache, controller.add)
+Routes.put("/", upload.single("link_gambar"), chache, controller.Update)
+Routes.delete("/delete/:id", chache, controller.delete)
 Routes.get("/useJoin",controller.joinall)
 
 
