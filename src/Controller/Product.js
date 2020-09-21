@@ -60,15 +60,15 @@ Product.add = async (req, res) => {
     }         
 }
 
-Product.edit = async (req, res) => {
-    try {
-        const { id, nama, harga, stok,kategori_id,link_gambar} = req.body
-        const data = await model.Edit(id, nama, harga, stok, kategori_id,link_gambar)
-        return res.send(data)   
-    } catch (error) {
-        return res.status(500).json(error)
-    }    
-}
+// Product.edit = async (req, res) => {
+//     try {
+//         const { id, nama, harga, stok,kategori_id,link_gambar} = req.body
+//         const data = await model.Edit(id, nama, harga, stok, kategori_id,link_gambar)
+//         return res.send(data)   
+//     } catch (error) {
+//         return res.status(500).json(error)
+//     }    
+// }
 
 Product.Update = async(req,res) => {
     try{
