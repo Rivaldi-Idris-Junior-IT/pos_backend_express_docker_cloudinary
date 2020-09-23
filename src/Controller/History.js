@@ -23,9 +23,21 @@ History.search = async (request, response) => {
     }
 }
 
-History.add = (req, res) => {    
-    const {invoices,cashier,date,orders,amount} = req.body
-    const data = model.Add(invoices,cashier,date,orders,amount)        
+History.add = async (req, res) => {    
+    let date_ob = new Date();
+    let date0 = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    const date_all = year + "-" + month + "-" + date0 ;    
+    const data_form = {
+        invoices : req.body.invoices,
+        cashier : req.body.cashier,
+        orders : req.body.orders,
+        amount : req.body.amount,
+        date : date_all
+    }    
+    const data = await model.Add(data_form.invoices,data_form.cashier,data_form.orders,data_form.amount,data_form.date)
+    console.log(data)
     return res.status(200).send(data)    
 }
 
