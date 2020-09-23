@@ -53,10 +53,10 @@ Product.Add = (nama, harga, stok, kategori_id, link_gambar) => {
     })      
 }
 
-Product.Edit = (id, nama, harga, stok,kategori_id,link_gambar) => { 
+Product.Edit = (id, nama, harga,kategori_id,link_gambar, stok) => { 
     return new Promise((resolve, reject) => {
         database
-        .query(`UPDATE public.table_produk SET nama='${nama}',harga=${harga},stok=${stok}, kategori_id='${kategori_id}', link_gambar='${link_gambar}' WHERE id=${id}; `)
+        .query(`UPDATE public.table_produk SET nama='${nama}',harga=${harga}, kategori_id='${kategori_id}', link_gambar='${link_gambar}',stok=${stok} WHERE id=${id}; `)
         .then((res) => {        
             resolve(Product.GetAll())
         })

@@ -47,13 +47,13 @@ Product.add = async (req, res) => {
         }
         const data_product = {
             nama : req.body.nama,
-            harga : req.body.harga,
-            stok : req.body.stok,
+            harga : req.body.harga,            
             kategori_id : req.body.kategori_id,
             link_gambar : req.file.path,
+            stok : req.body.stok,
         }
         console.log(data_product)
-        const data = await model.Add(data_product.nama, data_product.harga, data_product.stok, data_product.kategori_id, data_product.link_gambar)
+        const data = await model.Add(data_product.nama, data_product.harga, data_product.kategori_id, data_product.link_gambar, data_product.stok)
         return result(res, 201, data_product)      
     } catch (error) {
         return res.status(500).json(error)
