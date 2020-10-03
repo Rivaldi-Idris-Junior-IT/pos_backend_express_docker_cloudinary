@@ -1,5 +1,5 @@
 const respone = require("../Helper/respon")
-const redis = require("../config/redis")
+const redis = require("../Config/redis")
 
 const getAll = (req, res, next) => {
    redis.redisdb.get("getAll", (err, ress) => {

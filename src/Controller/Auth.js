@@ -2,10 +2,12 @@ const model = require("../Model/Users")
 const respone = require("../Helper/respon")
 const bcr = require('bcrypt')
 const jwt = require('jsonwebtoken')
+require("dotenv").config();
+
 
 class Auth {
 
-    login  =  async (req, res) => {
+      login = async (req, res) => {
 
         try {
         const passDB = await model.getByUsername(req.body.username)
@@ -25,6 +27,7 @@ class Auth {
         }
 
         } catch (error) {
+            console.log(error)
             respone(res, 500, error)
         }
     }
@@ -38,7 +41,7 @@ class Auth {
                 role : cek_account[0].role
             }            
 
-            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: 5 })
+            const gentoken =  jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: 20 })
             
             const getusername = cek_account[0].username
                         
@@ -64,7 +67,6 @@ class Auth {
         }
 
     }
-
 
 }
 

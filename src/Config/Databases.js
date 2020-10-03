@@ -1,9 +1,9 @@
 const Pool = require('pg-pool')
 
 const mydb = new Pool({
-    user : "latihan_1",
-    database : "Latihan_pointofsale",
-    password : "aldi67890",
+    user : "rivaldi",
+    database : "mainDB",
+    password : "root",
     host : "localhost"
 })
 
