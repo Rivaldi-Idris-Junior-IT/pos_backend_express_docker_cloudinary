@@ -1,0 +1,49 @@
+version: "3.7"
+services: 
+  db:
+    image: "posdb:latest"
+    expose: 
+      - 5400
+    ports: 
+      - "5400:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - netnetwork 
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: rivaldi
+      POSTGRES_DB: mainDB      
+  
+  redis:
+    image: redis:latest
+    networks:
+      - netnetwork
+    volumes:
+      - /home/ubuntu/DockerConfig/redis.conf:/usr/redis/redis.conf
+    command: redis-server /usr/redis/redis.conf
+    container_name: redis    
+  nodejs:
+    container_name: "node_backend"  
+    image: "backend"
+    ports: 
+      - "8181:4500"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - netnetwork 
+    environment:
+        PGUSER: rivaldi
+        PGHOST: db
+        PGDATABASE: mainDB
+        PASSWORD: root
+        PGPORT: 5432
+        SERVICEPORT: 4500
+        REDIS_PORT: 6379
+        REDIS_PASSWORD: aldi1234
+        REDIS_HOST: redis
+        
+networks:
+  netnetwork:
+      
