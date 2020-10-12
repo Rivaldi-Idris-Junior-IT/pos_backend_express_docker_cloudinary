@@ -25,7 +25,7 @@ pipeline {
                if (params.Mode == GIT_BRANCH ){
                     script {
                         CommitHash = sh (script : "git log -n 1 --pretty=format:'%H'", returnStdout:true)
-                        builderDocker = docker.build("aldifarzum/dockerpos-backend:${CommitHash}")
+                        builderDocker = docker.build("aldifarzum/dockerpos-backend:GIT_BRANCH")
                     }
                     sh 'echo Validasi branch berhasil'
                 }else if (params.Mode != GIT_BRANCH) {
