@@ -19,14 +19,22 @@ pipeline {
       }
     }
 
-   stage('Build Docker Image') {
-            steps {
-                script {
-                    CommitHash = sh (script : "git log -n 1 --pretty=format:'%H'", returnStdout: true)
-                    builderDocker = docker.build("bukanebi/vuevue:${CommitHash}")
-                }
-            }
-        }
+   stage('Build Docker Images') {
+       steps{
+           script {
+               if (params.Mode == GIT_BRANCH ){
+                    script {
+                        CommitHash = sh (script : "git log -n 1 --pretty=format:'%H'", returnStdout:true)
+                        builderDocker = docker.build("aldifarzum/dockerpos-backend:${CommitHash}")
+                    }
+                    sh 'echo Validasi branch berhasil'
+                }else if (params.Mode != GIT_BRANCH) {
+                    currentBuild.result = 'ABORTED'
+                    error('Validasi branch gagal …')
+                }                       
+           }
+       }       
+   }
 
    stage('Run Testing') {
         when {
