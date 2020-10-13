@@ -8,7 +8,7 @@ pipeline {
         booleanParam(name: 'RUNTEST', defaultValue: true, description: 'Toggle this value for testing')
         choice(name: 'Deploy', choices: ['production', 'deployement'], description: 'Deploy Other Server')
         choice(name: 'CICD', choices: ['CI', 'CICD'], description: 'Pick something')
-        choice(name: 'Mode', choices: ['master', 'production'], description: 'Pili mode push')
+        choice(name: 'Mode', choices: ['master','development', 'production'], description: 'Pili mode push')
     }
 
     stages {
@@ -67,63 +67,49 @@ pipeline {
 
 
 
-        stage('Deploy-process') {
-            if (params.Deploy == 'deployement') {
-
-                stage('Deploy-deployement') {
-                    when {
-                        expression {
-                            params.CICD == 'CICD'
-                        }
-                    }
-
-                    steps {
-                        script {
-                            sshPublisher(
-                                publishers: [
-                                    sshPublisherDesc(
-                                        configName: 'Development',
-                                        verbose: false,
-                                        transfers: [
-                                            sshTransfer(
-                                                execCommand: 'docker pull aldifarzum/dockerpos-backend:master; docker kill backend; docker run -d --rm --name backend -p 8080:80 aldifarzum/dockerpos-backend:master',
-                                                execTimeout: 120000,
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
-                        }
-                    }
+        stage('Deploy-deployement') {
+            when {
+                expression {
+                    params.CICD == 'CICD'
                 }
-            } else if (params.Deploy == 'production') {
-                stage('Deploy-production') {
-                    when {
-                        expression {
-                            params.CICD == 'CICD'
-                        }
-                    }
-
-                    steps {
-                        script {
-                            sshPublisher(
-                                publishers: [
-                                    sshPublisherDesc(
-                                        configName: 'Production',
-                                        verbose: false,
-                                        transfers: [
-                                            sshTransfer(
-                                                execCommand: 'docker pull aldifarzum/dockerpos-backend:production; docker kill backend; docker run -d --rm --name backend -p 8080:80 aldifarzum/dockerpos-backend:production',
-                                                execTimeout: 120000,
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
-                        }
+            }
+            steps {
+                script {
+                    if (params.Deploy == 'deployement') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Development',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest; docker run -d --rm --name backend -p 8080:80 aldifarzum/dockerpos-backend:latest',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    } else if (params.Deploy == 'production') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Production',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest; docker kill backend; docker run -d --rm --name backend -p 8080:80 aldifarzum/dockerpos-backend:latest',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
                     }
                 }
             }
+
+
         }
 
     }
