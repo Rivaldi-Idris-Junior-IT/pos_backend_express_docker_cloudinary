@@ -98,7 +98,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest; docker kill backend; docker run -d --rm --name backend -p 8080:80 aldifarzum/dockerpos-backend:latest',
+                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest; docker kill backend; docker run -d  --name backend -p 8080:80 aldifarzum/dockerpos-backend:latest',
                                             execTimeout: 250000,
                                         )
                                     ]
