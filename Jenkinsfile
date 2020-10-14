@@ -60,7 +60,7 @@ pipeline {
             }
             steps {
                 script {
-                    builderDocker.push("${env.GIT_BRANCH}")
+                    builderDocker.push("latest")
                 }
             }
         }
