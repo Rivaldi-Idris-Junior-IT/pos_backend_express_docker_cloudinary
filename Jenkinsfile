@@ -230,5 +230,50 @@ pipeline {
                 echo 'Pull image backend - success.'
             }
         }
+
+        stage("Running docker compose"){
+            when {
+                expression {
+                    params.CICD == 'CICD'
+                }
+            }
+            
+            steps {
+                script{
+                    if (params.Deploy == 'deployement') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Development',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'cd pos-backend-frontend-cicd-jenkins-docker; docker-compose up -d',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    } else if (params.Deploy == 'production') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Production',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'cd pos-backend-frontend-cicd-jenkins-docker; docker-compose up -d',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    }
+                }
+                echo 'Pull image backend - success.'
+            }
+        }
     }
 }
