@@ -272,7 +272,7 @@ pipeline {
                         )
                     }
                 }
-                echo 'Pull image backend - success.'
+                echo 'Execute Docker compose - success.'
             }
         }
     }
