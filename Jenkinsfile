@@ -26,7 +26,7 @@ pipeline {
                     if (params.Mode == GIT_BRANCH) {
                         script {
                             CommitHash = sh(script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
-                            builderDocker = docker.build("aldifarzum/dockerpos-backend:latest")
+                            builderDocker = docker.build("aldifarzum/dockerpos-backend:v1.0.0.2")
                         }
                         sh 'echo Validasi branch berhasil'
                     } else if (params.Mode != GIT_BRANCH) {
@@ -60,7 +60,7 @@ pipeline {
             }
             steps {
                 script {
-                    builderDocker.push("latest")
+                    builderDocker.push("v1.0.0.2")
                 }
             }
         }
@@ -83,7 +83,7 @@ pipeline {
         stage('Remove local images') {
             steps {
                 script{
-                    sh("docker rmi -f aldifarzum/dockerpos-backend:latest || :")        
+                    sh("docker rmi -f aldifarzum/dockerpos-backend:v1.0.0.2 || :")        
                 }      
             }                  
         }
@@ -91,7 +91,7 @@ pipeline {
         stage('Remove local images frontend') {
             steps {
                 script{
-                    sh("docker rmi -f aldifarzum/dockerpos-frontend:latest || :")
+                    sh("docker rmi -f aldifarzum/dockerpos-frontend:v1.0.0.1 || :")
                 }      
             }                  
         }
@@ -158,7 +158,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'docker pull aldifarzum/dockerpos-frontend:latest;',
+                                            execCommand: 'docker pull aldifarzum/dockerpos-frontend:v1.0.0.1;',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -173,7 +173,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'docker pull aldifarzum/dockerpos-frontend:latest;',
+                                            execCommand: 'docker pull aldifarzum/dockerpos-frontend:v1.0.0.1;',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -203,7 +203,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest;',
+                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:v1.0.0.2;',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -218,7 +218,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:latest;',
+                                            execCommand: 'docker pull aldifarzum/dockerpos-backend:v1.0.0.2;',
                                             execTimeout: 250000,
                                         )
                                     ]
