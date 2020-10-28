@@ -39,10 +39,7 @@ services:
     command: redis-server /usr/redis/redis.conf
     container_name: redis    
   backend_pos:
-    image: "backend"
-    depends_on:
-      - db
-      - redis
+    image: "backend"    
     volumes:
       - ./backend/logfile:/backend/logfile
     deploy:
@@ -56,14 +53,14 @@ services:
       - netnetwork 
     environment:
         PGUSER: rivaldi
-        PGHOST: db
+        PGHOST: 3.80.157.220
         PGDATABASE: mainDB
         PASSWORD: root
         PGPORT: 5432
         SERVICEPORT: 4500
         REDIS_PORT: 6379
         REDIS_PASSWORD: aldi1234
-        REDIS_HOST: redis
+        REDIS_HOST: 3.80.157.220
   frontend_pos:
     container_name: "vue_frontend"
     image: "frontend"
