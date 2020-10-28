@@ -52,10 +52,10 @@ services:
     networks:
       - netnetwork 
     environment:
-        PGUSER: rivaldi
+        PGUSER: admin
         PGHOST: 3.80.157.220
-        PGDATABASE: mainDB
-        PASSWORD: root
+        PGDATABASE: postgres
+        PASSWORD: secret
         PGPORT: 5432
         SERVICEPORT: 4500
         REDIS_PORT: 6379
