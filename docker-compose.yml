@@ -1,7 +1,7 @@
 version: "3.7"
 services: 
   backend_pos:
-    image: "backend"    
+    image: "aldifarzum/dockerpos-backend:v1.0.0.2"    
     volumes:
       - ./backend/logfile:/backend/logfile
     deploy:
@@ -25,7 +25,7 @@ services:
         REDIS_HOST: 3.80.157.220
   frontend_pos:
     container_name: "vue_frontend"
-    image: "frontend"
+    image: "aldifarzum/dockerpos-frontend:v1.0.0.1"
     ports:
       - 80:80
     networks:
