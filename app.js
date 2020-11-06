@@ -18,7 +18,7 @@ server.use(bodyParser.urlencoded({extended: false}))
 server.use(bodyParser.json())
 server.use(morgan("dev"))
 server.use('/backend',routes)
-server.use("/public", express.static("public"))
+server.use("/backend/public", express.static("public"))
 
 database
     .connect()

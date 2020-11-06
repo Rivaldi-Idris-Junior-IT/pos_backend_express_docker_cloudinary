@@ -39,11 +39,11 @@ Product.JoinAll = () => {
     })
 }
 
-Product.Add = (nama, harga, kategori_id, link_gambar,stok,) => { 
+Product.Add = (nama, harga, kategori_id, link_gambar,stok,cloudinary_id) => { 
     console.log(nama)
     return new Promise((resolve, reject) => {
         database
-        .query(`INSERT INTO public.table_produk(nama, harga, kategori_id, link_gambar, stok) VALUES ('${nama}', '${(harga)}', '${kategori_id}', '${link_gambar}', '${stok}')`)        
+        .query(`INSERT INTO public.table_produk(nama, harga, kategori_id, link_gambar, stok, cloudinary_id) VALUES ('${nama}', '${(harga)}', '${kategori_id}', '${link_gambar}', '${stok}', '${cloudinary_id}')`)        
         .then(() => {        
             resolve(Product.GetAll())
         })
@@ -79,6 +79,20 @@ Product.Delete = (id) => {
     })
 }
 
+Product.getImage = (id) => {
+    return new Promise((resolve, reject) => {
+        database
+        .query(`SELECT "cloudinary_id" FROM table_produk WHERE id = ${id}`)
+        .then((res) => {        
+            if(res.rowCount === 0) return reject(res)
+            resolve(res.rows[0])
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+  
 
 Product.SelectImage = (id) => {
     return new Promise((resolve, reject) => {

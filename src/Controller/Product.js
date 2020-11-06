@@ -1,4 +1,6 @@
 const model = require('../Model/Product')
+const cloudinary = require('../Middleware/cloudinary')
+const upload = require('../Middleware/upload')
 const { request, response } = require('express')
 const redis = require("../Config/redis")
 const result = require("../Helper/respon")
@@ -45,15 +47,18 @@ Product.add = async (req, res) => {
             console.log(req.file)
             return res.status(500).json("Data Kosong")
         }
+        let = imgLocation = req.file.path
+        const cld = await cloudinary.uploader.upload(req.file.path)
         const data_product = {
             nama : req.body.nama,
             harga : req.body.harga,            
             kategori_id : req.body.kategori_id,
-            link_gambar : req.file.path,
+            link_gambar : cld.url,
             stok : req.body.stok,
+            cloudinary_id : cld.public_id
         }
         console.log(data_product)
-        const data = await model.Add(data_product.nama, data_product.harga, data_product.kategori_id, data_product.link_gambar, data_product.stok)
+        const data = await model.Add(data_product.nama, data_product.harga, data_product.kategori_id, data_product.link_gambar, data_product.stok, data_product.cloudinary_id)
         return result(res, 201, data_product)      
     } catch (error) {
         return res.status(500).json(error)
@@ -100,12 +105,21 @@ Product.Update = async(req,res) => {
 }
 
 Product.delete = async (req, res) => {
-    try {
+    try {        
         const {id} = req.params
-        const data = await model.Delete(id)
-        return res.send(data)    
+        try {
+             dbImage = await model.getImage(id)                     
+             
+        }catch (err){
+            console.log(err)
+            return res.send(Respon.Succes(200, []))            
+        }                
+        // console.log(dbImage.cloudinary_id)
+        await cloudinary.uploader.destroy(dbImage.cloudinary_id)
+        const data = await model.Delete(id)                                
+        return res.send(data)            
     } catch (error) {
-        return res.status(500).json(error)
+        console.log(error)
     }
     
 }

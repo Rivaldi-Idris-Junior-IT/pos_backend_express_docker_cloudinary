@@ -6,7 +6,7 @@ services:
       - ./backend/logfile:/backend/logfile
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
       resources:
         limits:
           cpus: '1'
@@ -23,18 +23,17 @@ services:
         REDIS_PORT: 6379
         REDIS_PASSWORD: aldi1234
         REDIS_HOST: 3.80.157.220
-  frontend_pos:
-    container_name: "vue_frontend"
+  frontend_pos:    
     image: "aldifarzum/dockerpos-frontend:v1.0.0.1"
     ports:
-      - 80:80
+      - 9191:80
     networks:
       - netnetwork
     depends_on:
       - backend_pos
     environment:
-     -  VUE_APP_URL=http://52.87.153.27/backend/
-     -  VUE_APP_STATIC_URL=http://52.87.153.27/backend/public/upload
+     -  VUE_APP_URL=http://127.0.0.1:9191/backend/
+     -  VUE_APP_STATIC_URL=http://127.0.0.1:9191/backend/
     volumes: 
       - ./frontend:/dist/public
 networks:
