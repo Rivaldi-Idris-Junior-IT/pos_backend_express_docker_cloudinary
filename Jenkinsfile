@@ -80,7 +80,55 @@ pipeline {
             }
         }
 
-        stage('Remove local images') {
+
+        stage("Clone github to server"){
+            when {
+                expression {
+                    params.CICD == 'CICD'
+                }
+            }
+            
+            steps {
+                script{
+                    if (params.Deploy == 'master') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Usertesting',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'cd /home/usertesting; rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    } else if (params.Deploy == 'production') {
+                        sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'Production',
+                                    verbose: false,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git',
+                                            execTimeout: 250000,
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    }
+                }
+                echo 'Delete image - success.'
+            }
+        }
+
+
+
+        stage('Remove local images backend') {
             steps {
                 script{
                     sh("docker rmi -f aldifarzum/dockerpos-backend:v1.0.0.2 || :")        
@@ -96,6 +144,7 @@ pipeline {
             }                  
         }
         
+        
         stage("Delete image server"){
             when {
                 expression {
@@ -105,11 +154,11 @@ pipeline {
             
             steps {
                 script{
-                    if (params.Deploy == 'deployement') {
+                    if (params.Deploy == 'master') {
                         sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'Development',
+                                    configName: 'Usertesting',
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
@@ -150,11 +199,11 @@ pipeline {
             
             steps {
                 script{
-                    if (params.Deploy == 'deployement') {
+                    if (params.Deploy == 'master') {
                         sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'Development',
+                                    configName: 'Usertesting',
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
@@ -195,11 +244,11 @@ pipeline {
             
             steps {
                 script{
-                    if (params.Deploy == 'deployement') {
+                    if (params.Deploy == 'master') {
                         sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'Development',
+                                    configName: 'Usertesting',
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
@@ -240,15 +289,15 @@ pipeline {
             
             steps {
                 script{
-                    if (params.Deploy == 'deployement') {
+                    if (params.Deploy == 'master') {
                         sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'Development',
+                                    configName: 'Usertesting',
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'cd pos-backend-frontend-cicd-jenkins-docker; docker-compose up -d',
+                                            execCommand: 'cd pos_backend_express_docker_cloudinary; docker-compose up -d',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -263,7 +312,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'cd pos-backend-frontend-cicd-jenkins-docker; docker-compose up -d',
+                                            execCommand: 'cd pos_backend_express_docker_cloudinary; docker-compose up -d',
                                             execTimeout: 250000,
                                         )
                                     ]
