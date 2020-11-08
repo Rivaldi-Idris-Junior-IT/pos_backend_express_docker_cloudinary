@@ -20,7 +20,7 @@ services:
         PGHOST: 54.237.63.193
         PGDATABASE: postgres
         PASSWORD: secret
-        PGPORT: 5432
+        PGPORT: 5400
         SERVICEPORT: 4500
         REDIS_PORT: 6379
         REDIS_PASSWORD: aldi1234
