@@ -98,7 +98,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'cd /home/usertesting; rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git',
+                                            execCommand: 'cd /home/usertesting; rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git; git checkout master',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -113,7 +113,7 @@ pipeline {
                                     verbose: false,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git',
+                                            execCommand: 'rm -rf pos_backend_express_docker_cloudinary; git clone https://github.com/Rivaldi-Idris-Junior-IT/pos_backend_express_docker_cloudinary.git;',
                                             execTimeout: 250000,
                                         )
                                     ]
@@ -323,6 +323,15 @@ pipeline {
                 }
                 echo 'Execute Docker compose - success.'
             }
+        }
+
+        stage('Remove old clone directory jenkins') {
+            steps {
+                script{
+                    sh("cd")
+                    sh("rm -r /var/lib/jenkins/workspace/* ")
+                }      
+            }                  
         }
     }
 }

@@ -2,8 +2,7 @@ version: "3.7"
 services: 
   backend_pos:
     image: "aldifarzum/dockerpos-backend:v1.0.0.2"
-    ports:
-      - "4500:4500"
+    restart: always    
     volumes:
       - ./backend/logfile:/backend/logfile
     deploy:
