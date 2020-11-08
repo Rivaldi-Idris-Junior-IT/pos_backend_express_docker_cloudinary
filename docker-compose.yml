@@ -32,8 +32,8 @@ services:
     depends_on:
       - backend_pos
     environment:
-     -  VUE_APP_URL=http://127.0.0.1:9191/backend/
-     -  VUE_APP_STATIC_URL=http://127.0.0.1:9191/backend/
+     -  VUE_APP_URL=http://54.237.27.238:9191/backend/
+     -  VUE_APP_STATIC_URL=http://54.237.27.238:9191/backend/
     volumes: 
       - ./frontend:/dist/public
 networks:
