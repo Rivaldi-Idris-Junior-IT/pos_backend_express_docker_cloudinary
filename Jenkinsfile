@@ -327,8 +327,7 @@ pipeline {
 
         stage('Remove old clone directory jenkins') {
             steps {
-                script{
-                    sh("cd")
+                script{                    
                     sh("rm -r /var/lib/jenkins/workspace/* ")
                 }      
             }                  
