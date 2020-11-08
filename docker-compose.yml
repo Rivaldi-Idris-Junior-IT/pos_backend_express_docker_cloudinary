@@ -1,12 +1,13 @@
 version: "3.7"
 services: 
   backend_pos:
-    image: "aldifarzum/dockerpos-backend:v1.0.0.2"    
+    image: "aldifarzum/dockerpos-backend:v1.0.0.2"
+    restart: always    
     volumes:
       - ./backend/logfile:/backend/logfile
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
       resources:
         limits:
           cpus: '1'
@@ -15,14 +16,14 @@ services:
       - netnetwork 
     environment:
         PGUSER: admin
-        PGHOST: 3.80.157.220
+        PGHOST: 54.237.63.193
         PGDATABASE: postgres
         PASSWORD: secret
-        PGPORT: 5432
+        PGPORT: 5400
         SERVICEPORT: 4500
         REDIS_PORT: 6379
         REDIS_PASSWORD: aldi1234
-        REDIS_HOST: 3.80.157.220
+        REDIS_HOST: 54.237.63.193
   frontend_pos:    
     image: "aldifarzum/dockerpos-frontend:v1.0.0.1"
     ports:
@@ -32,8 +33,8 @@ services:
     depends_on:
       - backend_pos
     environment:
-     -  VUE_APP_URL=http://127.0.0.1:9191/backend/
-     -  VUE_APP_STATIC_URL=http://127.0.0.1:9191/backend/
+     -  VUE_APP_URL=http://54.237.27.238:9191/backend/
+     -  VUE_APP_STATIC_URL=http://54.237.27.238:9191/backend/
     volumes: 
       - ./frontend:/dist/public
 networks:
