@@ -15,14 +15,14 @@ services:
       - netnetwork 
     environment:
         PGUSER: admin
-        PGHOST: 3.80.157.220
+        PGHOST: 54.237.63.193
         PGDATABASE: postgres
         PASSWORD: secret
         PGPORT: 5432
         SERVICEPORT: 4500
         REDIS_PORT: 6379
         REDIS_PASSWORD: aldi1234
-        REDIS_HOST: 3.80.157.220
+        REDIS_HOST: 54.237.63.193
   frontend_pos:    
     image: "aldifarzum/dockerpos-frontend:v1.0.0.1"
     ports:
