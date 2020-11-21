@@ -38,6 +38,18 @@ services:
      -  VUE_APP_STATIC_URL=http://54.237.27.238:9191/backend/
     volumes: 
       - ./frontend:/dist/public
+      - ./conf.d:/etc/nginx/conf.d
+      - ./dhparam:/etc/nginx/dhparam
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+  certbot:
+  image: certbot/certbot:latest
+  command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email accessrate23905@gmail.com --agree-tos --no-eff-email -d tester.rivaldiweb.xyz
+  volumes: 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+  
 networks:
   netnetwork:
       
