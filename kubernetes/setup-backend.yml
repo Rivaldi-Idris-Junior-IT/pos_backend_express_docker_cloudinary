@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webcaffe
+
+---
+apiVersion: v1
+data:
+  PGHOST: "54.237.63.193"
+  PGUSER: "admin"
+  PGDATABASE: "postgres"
+  PGPASSWORD: "secret"
+  PGPORT: "5400"
+  SERVICEPORT: "4500"
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: "aldi1234"  
+  REDIS_HOST: "54.237.63.193"
+
+kind: ConfigMap
+metadata:
+  name: env-backend
+  namespace: webcaffe
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pos-backend
+  namespace: webcaffe
+spec:
+  selector:
+    matchLabels:
+      app: pos-backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: pos-backend
+    spec:
+      containers:
+        - name: user-service
+          image: aldifarzum/dockerpos-backend:v1.0.0.2
+          ports:
+            - containerPort: 4500
+          envFrom:
+            - configMapRef:
+                name: env-backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pos-backend
+  namespace: webcaffe
+  labels:
+    app: pos-backend
+spec:
+  selector:
+    app: pos-backend
+  # type: LoadBalancer
+  # type: ClusterIP
+  type: NodePort
+  ports:
+    - port: 8081
+      targetPort: 4500
+      nodePort: 30881
+      protocol: TCP
+      name: serviceport
